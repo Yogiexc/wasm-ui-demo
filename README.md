@@ -1,46 +1,74 @@
 # 🚀 WASM UI Demo - Frontend Accelerator
 
+<div align="center">
+
+![WebAssembly](https://img.shields.io/badge/WebAssembly-654FF0?style=for-the-badge&logo=webassembly&logoColor=white)
+![Rust](https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
+[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/yourusername/wasm-ui-demo)
+
 **Exploring WebAssembly to offload heavy logic from JavaScript and build high-performance web applications.**
 
-Repository untuk demonstrasi penggunaan WebAssembly (WASM) sebagai accelerator untuk komputasi berat di frontend web application. Project ini menunjukkan bagaimana memisahkan UI logic (JavaScript) dengan heavy computation (Rust/WASM).
+[Live Demo](#-live-demo) • [Features](#-features) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Contributing](#-contributing)
+
+</div>
 
 ---
 
-## 📋 Table of Contents
+## 📸 Preview
 
-- [Apa itu WebAssembly?](#apa-itu-webassembly)
-- [Arsitektur System](#arsitektur-system)
-- [Tech Stack](#tech-stack)
-- [Use Cases Demo](#use-cases-demo)
-- [Setup & Installation](#setup--installation)
-- [Build & Run](#build--run)
-- [Performance Analysis](#performance-analysis)
-- [Kapan Pakai WASM?](#kapan-pakai-wasm)
-- [Trade-offs WASM vs JS](#trade-offs-wasm-vs-js)
-- [Future Insights](#future-insights)
+<div align="center">
+  <img src="https://via.placeholder.com/800x400/667eea/ffffff?text=WASM+UI+Demo+Screenshot" alt="WASM UI Demo Screenshot" />
+  <p><i>Interactive WebAssembly demonstrations with real-time performance metrics</i></p>
+</div>
 
 ---
 
-## 🤔 Apa itu WebAssembly?
+## 🎯 Apa itu WebAssembly?
 
 **WebAssembly (WASM)** adalah format instruksi biner untuk mesin virtual berbasis stack yang berjalan di browser. WASM bukan bahasa pemrograman, melainkan **compilation target** yang memungkinkan bahasa seperti Rust, C++, Go dikompilasi ke format yang bisa dijalankan browser dengan performa mendekati native.
 
-### Key Points:
-- **Bukan pengganti JavaScript** - melainkan complement
-- **Near-native performance** - 1.5-20x lebih cepat untuk CPU-intensive tasks
-- **Portable** - run anywhere yang support WASM (browser, server, edge)
-- **Safe** - sandboxed execution environment
-- **Compact** - binary format lebih kecil dari JS
+### Key Benefits:
+- ⚡ **Near-native performance** - 1.5-20x lebih cepat untuk CPU-intensive tasks
+- 🔒 **Safe & Sandboxed** - Memory-safe execution environment
+- 🌐 **Portable** - Run anywhere (browser, server, edge)
+- 📦 **Compact** - Binary format lebih kecil dari equivalent JS
 
 ---
 
-## 🏗️ Arsitektur System
+## ✨ Features
+
+### 🎮 Interactive Demos
+
+| Demo | Algorithm | Speedup | Use Case |
+|------|-----------|---------|----------|
+| **Prime Numbers** | Sieve of Eratosthenes | **~15x** | CPU-intensive computation |
+| **Mandelbrot Set** | Complex number iteration | **~18x** | Visual fractal rendering |
+| **Fibonacci** | Dynamic programming | **~5x** | Recursive calculations |
+| **Text Analysis** | String processing | **~2x** | NLP preprocessing |
+
+### 🔥 Core Features
+
+- ✅ Real-time performance comparison (WASM vs JS)
+- ✅ Visual feedback dengan Canvas API
+- ✅ Responsive design (mobile-friendly)
+- ✅ Zero dependencies (pure Rust + vanilla JS)
+- ✅ Complete source code dengan dokumentasi
+- ✅ Production-ready build configuration
+
+---
+
+## 🏗️ Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                        BROWSER                               │
 │  ┌────────────────────────────────────────────────────┐    │
-│  │                   UI LAYER (HTML/JS)                │    │
+│  │              UI LAYER (HTML/JS)                     │    │
 │  │  • Event Handling                                   │    │
 │  │  • DOM Manipulation                                 │    │
 │  │  • User Interaction                                 │    │
@@ -49,297 +77,213 @@ Repository untuk demonstrasi penggunaan WebAssembly (WASM) sebagai accelerator u
 │                    │ JavaScript Bridge (wasm-bindgen)       │
 │                    ↓                                         │
 │  ┌────────────────────────────────────────────────────┐    │
-│  │              WASM MODULE (Rust)                     │    │
-│  │  • Prime Calculation (Sieve of Eratosthenes)       │    │
-│  │  • Mandelbrot Set Generation                        │    │
+│  │           COMPUTE LAYER (WASM/Rust)                 │    │
+│  │  • Prime Calculation                                │    │
+│  │  • Mandelbrot Generation                            │    │
 │  │  • Fibonacci Sequence                               │    │
-│  │  • Text Analysis                                    │    │
-│  │  • Sorting Algorithms                               │    │
+│  │  • Text Processing                                  │    │
 │  └────────────────────────────────────────────────────┘    │
-│                                                              │
 └──────────────────────────────────────────────────────────────┘
-
-Flow:
-1. User interacts dengan UI (click button)
-2. JavaScript calls WASM function via wasm-bindgen
-3. WASM executes heavy computation
-4. Result dikembalikan ke JavaScript
-5. JavaScript updates DOM dengan result
 ```
 
-### Communication Flow:
+### Data Flow:
 
 ```
-UI (HTML) 
-   ↓ (user click)
-JavaScript Event Handler
-   ↓ (function call)
-WASM Module (Rust)
-   ↓ (computation)
-Return Result
-   ↓
-JavaScript receives data
-   ↓
-Update DOM/Canvas
+User Click → JavaScript Event → WASM Function → Computation → 
+Result → JavaScript → DOM Update → Visual Feedback
 ```
 
 ---
 
 ## 🛠️ Tech Stack
 
-### Backend Computation (WASM):
+### Backend Computation:
 - **Rust** - System programming language
-- **wasm-bindgen** - Bridge antara Rust dan JavaScript
-- **wasm-pack** - Build tool untuk WASM
+- **wasm-bindgen** - Rust/JS interop layer
+- **wasm-pack** - Build tool & bundler
 
 ### Frontend UI:
-- **HTML5** - Structure
-- **Vanilla JavaScript** - UI logic & WASM bridge
-- **Canvas API** - Rendering Mandelbrot set
+- **HTML5** - Structure & semantics
+- **Vanilla JavaScript** - UI logic
+- **Canvas API** - Graphics rendering
 
 ### Build Tools:
 - **cargo** - Rust package manager
-- **wasm-pack** - WASM compiler & bundler
-- **http-server** / any static server
+- **wasm-pack** - WASM compiler
+- **Python/Node.js** - Local development server
 
 ---
 
-## 🎯 Use Cases Demo
+## 🚀 Quick Start
 
-Project ini mendemonstrasikan 4 use case berbeda:
+### Prerequisites
 
-### 1. **Prime Number Calculation** (CPU-Intensive)
-- **Algorithm**: Sieve of Eratosthenes
-- **Complexity**: O(n log log n)
-- **Why WASM**: Loop intensif dengan operasi matematika
-- **Performance Gain**: ~5-15x lebih cepat vs naive JS implementation
-
-### 2. **Mandelbrot Set Generation** (Computational Heavy)
-- **Algorithm**: Iterative complex number calculation
-- **Complexity**: O(width × height × max_iterations)
-- **Why WASM**: Nested loops dengan floating point operations
-- **Performance Gain**: ~10-20x lebih cepat untuk rendering fractal
-
-### 3. **Fibonacci Sequence** (Recursive Computation)
-- **Algorithm**: Dynamic programming approach
-- **Why WASM**: Iterative calculation dengan large numbers
-- **Performance Gain**: ~2-5x lebih cepat
-
-### 4. **Text Analysis** (String Processing)
-- **Algorithm**: Word frequency & counting
-- **Why WASM**: String manipulation pada text besar
-- **Use Case**: NLP preprocessing, data analysis
-
----
-
-## 📦 Setup & Installation
-
-### Prerequisites:
-1. **Rust** (latest stable)
-   ```bash
-   curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
-   ```
-
-2. **wasm-pack**
-   ```bash
-   curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
-   ```
-
-3. **Static HTTP Server** (pilih salah satu)
-   ```bash
-   # Option 1: Python
-   python -m http.server
-   
-   # Option 2: Node.js
-   npm install -g http-server
-   
-   # Option 3: Rust
-   cargo install simple-http-server
-   ```
-
-### Project Structure:
-```
-wasm-ui-demo/
-├── wasm/
-│   ├── src/
-│   │   └── lib.rs          # Core WASM logic (Rust)
-│   └── Cargo.toml          # Rust dependencies
-├── public/
-│   ├── index.html          # UI interface
-│   └── pkg/                # Compiled WASM (generated)
-│       ├── wasm_ui_demo_bg.wasm
-│       ├── wasm_ui_demo.js
-│       └── ...
-└── README.md
-```
-
----
-
-## 🔨 Build & Run
-
-### Step-by-Step Build Process:
-
-#### 1. **Clone Repository**
 ```bash
+# 1. Install Rust
+curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh
+
+# 2. Install wasm-pack
+cargo install wasm-pack
+
+# 3. Verify installation
+rustc --version
+wasm-pack --version
+```
+
+### Installation
+
+```bash
+# Clone repository
 git clone https://github.com/yourusername/wasm-ui-demo.git
 cd wasm-ui-demo
-```
 
-#### 2. **Build WASM Module**
-```bash
+# Build WASM module
 cd wasm
 wasm-pack build --target web --out-dir ../public/pkg
-```
 
-**Apa yang terjadi:**
-- Rust code di `src/lib.rs` dikompilasi ke WASM
-- `wasm-bindgen` generate JavaScript glue code
-- Output: `.wasm` binary + `.js` wrapper di `public/pkg/`
-
-**Flags explained:**
-- `--target web`: Generate ES module untuk browser
-- `--out-dir`: Lokasi output compiled files
-
-#### 3. **Run Local Server**
-```bash
+# Run local server
 cd ../public
 python -m http.server 8080
-# atau
-http-server -p 8080
-# atau
-simple-http-server -p 8080
+
+# Open browser
+# http://localhost:8080
 ```
 
-#### 4. **Open Browser**
-```
-http://localhost:8080
-```
+### Windows Users
 
-### Development Workflow:
+```powershell
+# Install Visual Studio Build Tools first
+# Download: https://aka.ms/vs/17/release/vs_buildtools.exe
+# Select: "Desktop development with C++"
 
-```bash
-# Watch mode untuk auto-rebuild (perlu cargo-watch)
-cargo install cargo-watch
-cargo watch -i .gitignore -i "pkg/*" -s "wasm-pack build --target web --out-dir ../public/pkg"
+# Then follow installation steps above
 ```
 
 ---
 
-## ⚡ Performance Analysis
+## 📊 Performance Benchmarks
 
-### Benchmark Results (MacBook Pro M1, Chrome 120):
+**Test Environment:** MacBook Pro M1, Chrome 120, macOS Sonoma
 
-| Operation | Input Size | WASM Time | JS Time | Speedup |
-|-----------|-----------|-----------|---------|---------|
-| Prime Numbers | 100,000 | ~12ms | ~180ms | **15x** |
-| Prime Numbers | 1,000,000 | ~95ms | ~2,400ms | **25x** |
-| Mandelbrot 400x400 | 100 iter | ~45ms | ~850ms | **18.9x** |
+| Operation | Input | WASM | JavaScript | Speedup |
+|-----------|-------|------|------------|---------|
+| Prime Numbers | 100K | 12ms | 180ms | **15.0x** ⚡ |
+| Prime Numbers | 1M | 95ms | 2,400ms | **25.3x** ⚡⚡ |
+| Mandelbrot 400x400 | 100 iter | 45ms | 850ms | **18.9x** ⚡⚡ |
 | Fibonacci(90) | n=90 | <1ms | <1ms | **~1x** |
-| Text Analysis | 10KB text | ~2ms | ~3ms | **1.5x** |
+| Text Analysis | 10KB | 2ms | 3ms | **1.5x** |
 
 ### Key Insights:
 
-1. **WASM dominan untuk loop-intensive operations**
-   - Semakin besar data, semakin besar speedup
-   - Mandelbrot (nested loops) mendapat benefit terbesar
-
-2. **Small operations tidak worth it**
-   - Fibonacci kecil: overhead WASM call > computation time
-   - Sweet spot: operations > 10ms
-
-3. **Memory-bound operations**
-   - Jika bottleneck di memory allocation, WASM gain minimal
-   - Text analysis: benefit kecil karena string allocation overhead
+- ✅ WASM dominates untuk **loop-intensive operations**
+- ✅ Semakin besar dataset, semakin besar speedup
+- ⚠️ Small operations (<1ms) tidak worth overhead
+- 💡 Sweet spot: operations > 10ms execution time
 
 ---
 
-## 🎯 Kapan Pakai WASM?
+## 📖 Documentation
 
-### ✅ USE WASM WHEN:
+### Project Structure
 
-1. **CPU-Intensive Computations**
-   - Image/video processing
-   - 3D rendering & physics simulation
-   - Cryptography & hashing
-   - Data compression/decompression
-   - Scientific calculations
+```
+wasm-ui-demo/
+├── wasm/                    # Rust/WASM source code
+│   ├── src/
+│   │   └── lib.rs          # Core algorithms
+│   ├── Cargo.toml          # Rust dependencies
+│   └── target/             # Build artifacts
+├── public/                  # Frontend files
+│   ├── index.html          # UI interface
+│   └── pkg/                # Compiled WASM (generated)
+├── CONTRIBUTING.md          # Contribution guide
+├── LICENSE                  # MIT License
+└── README.md               # This file
+```
 
-2. **Existing C/C++/Rust Codebase**
-   - Port library existing ke web
-   - Game engines (Unity, Unreal)
-   - CAD/3D modeling tools
+### API Reference
 
-3. **Performance-Critical Paths**
-   - Real-time audio/video processing
-   - ML inference (TensorFlow.js WASM backend)
-   - Blockchain & crypto operations
+#### `calculate_primes(n: u32) -> Vec<u32>`
+Calculate all prime numbers up to n using Sieve of Eratosthenes.
 
-4. **Predictable Performance**
-   - Butuh consistent execution time
-   - Avoid GC pauses dari JavaScript
+**Example:**
+```javascript
+import { calculate_primes } from './pkg/wasm_ui_demo.js';
+const primes = calculate_primes(1000000);
+console.log(`Found ${primes.length} primes`);
+```
 
-### ❌ JANGAN PAKAI WASM UNTUK:
+#### `generate_mandelbrot(width, height, iterations, zoom, offset_x, offset_y) -> Vec<u8>`
+Generate Mandelbrot set as RGBA pixel data.
 
-1. **DOM Manipulation**
-   - WASM tidak bisa akses DOM directly
-   - Harus via JavaScript bridge (overhead)
+**Example:**
+```javascript
+const pixels = generate_mandelbrot(400, 400, 100, 4.0, -0.5, 0);
+const imageData = ctx.createImageData(400, 400);
+imageData.data.set(pixels);
+ctx.putImageData(imageData, 0, 0);
+```
 
-2. **Simple UI Logic**
-   - Event handling
-   - Form validation
-   - Simple calculations
+#### `fibonacci(n: u32) -> u64`
+Calculate nth Fibonacci number using dynamic programming.
 
-3. **I/O Operations**
-   - Fetch API calls
-   - File uploads
-   - WebSocket communication
-
-4. **Small, Quick Operations**
-   - Function calls < 1ms
-   - Overhead WASM bridge > benefit
+#### `analyze_text(text: &str) -> String`
+Analyze text and return word count, character count, and unique words.
 
 ---
 
-## ⚖️ Trade-offs WASM vs JS
+## 🎯 When to Use WASM?
 
-### WASM Advantages:
+### ✅ USE WASM FOR:
 
-| Aspect | Benefit |
-|--------|---------|
-| **Performance** | 1.5-20x faster untuk CPU-intensive tasks |
-| **Predictability** | Deterministic execution, no GC pauses |
-| **Security** | Sandboxed, memory-safe execution |
-| **Language Choice** | Gunakan Rust, C++, Go untuk web |
-| **Binary Size** | Lebih compact dari equivalent JS (gzip) |
-| **Portability** | Same code bisa run di browser, server, edge |
+- **CPU-Intensive Tasks**
+  - Image/video processing
+  - Cryptography & hashing
+  - Data compression
+  - Scientific simulations
+  - 3D rendering & physics
 
-### WASM Disadvantages:
+- **Porting Existing Code**
+  - C/C++ libraries to web
+  - Game engines (Unity, Unreal)
+  - Legacy codebases
 
-| Aspect | Limitation |
-|--------|-----------|
-| **DOM Access** | Tidak bisa manipulasi DOM directly |
-| **Debugging** | Harder to debug vs JavaScript |
-| **Bundle Size** | Initial .wasm file bisa besar (100KB-2MB) |
-| **Browser Support** | IE11 tidak support (tapi sudah deprecated) |
-| **Learning Curve** | Perlu belajar Rust/C++ |
-| **Call Overhead** | JS ↔ WASM boundary ada cost |
+- **Performance-Critical Paths**
+  - Real-time audio/video
+  - ML inference
+  - Blockchain operations
+
+### ❌ DON'T USE WASM FOR:
+
+- DOM manipulation
+- Simple UI logic
+- I/O operations (fetch, WebSocket)
+- Quick operations (<1ms)
+
+---
+
+## ⚖️ Trade-offs: WASM vs JavaScript
+
+| Aspect | WASM | JavaScript |
+|--------|------|------------|
+| **Performance** | 1.5-20x faster | Baseline |
+| **DOM Access** | ❌ Indirect (via JS) | ✅ Direct |
+| **Learning Curve** | 📈 Steep (Rust/C++) | 📉 Gentle |
+| **Bundle Size** | 50-500KB initial | Variable |
+| **Debugging** | 🟡 Harder | 🟢 Easy |
+| **Predictability** | ✅ No GC pauses | ⚠️ GC pauses |
 
 ### Decision Matrix:
 
 ```
                 High Computation
                        ↑
-                       │
     ┌──────────────────┼──────────────────┐
-    │                  │                  │
     │   Use WASM       │   Use WASM       │
-    │   (optimal)      │   (必要)          │
-    │                  │                  │
+    │   (optimal)      │   (recommended)  │
 Low ├──────────────────┼──────────────────┤ High
-DOM │                  │                  │ DOM
-    │   Use JS         │   Use JS         │
-    │   (simple)       │   (必須)          │
-    │                  │                  │
+DOM │   Use JS         │   Use JS         │
+    │   (simple)       │   (required)     │
     └──────────────────┼──────────────────┘
                        ↓
                 Low Computation
@@ -347,166 +291,98 @@ DOM │                  │                  │ DOM
 
 ---
 
-## 🔮 Future Insights: Masa Depan WASM
+## 🔮 Future of WebAssembly
 
-### Current State (2025):
+### Current Trends (2025):
 
-- **Adoption**: Major frameworks (Figma, Google Earth, AutoCAD) already use WASM
-- **Tooling**: wasm-pack, wasm-bindgen sudah production-ready
-- **Performance**: Sudah achieve 1-2x native speed untuk many workloads
+- **WASI** - WebAssembly System Interface untuk non-browser environments
+- **Component Model** - Modular WASM composition
+- **GC Proposal** - Native garbage collection support
+- **SIMD** - Single Instruction Multiple Data for parallel ops
+- **Threads** - Multi-threading di browser
 
-### Emerging Trends:
+### Real-World Adoption:
 
-#### 1. **WASI (WebAssembly System Interface)**
-```
-WASM tidak lagi browser-only!
-- Server-side: Cloudflare Workers, Fastly Compute@Edge
-- Serverless: AWS Lambda + WASM runtime
-- IoT: Embedded devices running WASM
-```
-
-#### 2. **Component Model**
-```
-Standardisasi interface antar WASM modules
-- Compose WASM modules seperti Lego blocks
-- Language-agnostic component sharing
-- Better tree-shaking & code splitting
-```
-
-#### 3. **GC Proposal (Garbage Collection)**
-```
-Native GC support di WASM
-- Better support untuk high-level languages (Java, C#, Kotlin)
-- Smaller binary sizes
-- Better interop dengan JS
-```
-
-#### 4. **SIMD (Single Instruction Multiple Data)**
-```
-Parallel operations untuk:
-- Image processing: 3-5x faster
-- ML inference: 2-4x faster
-- Video encoding/decoding
-```
-
-#### 5. **Threads & Atomics**
-```
-Multi-threading di browser:
-- Parallel computation
-- Better CPU utilization
-- Complex simulations
-```
-
-### Industry Predictions:
-
-| Year | Milestone |
-|------|-----------|
-| **2025** | WASM becomes standard for compute-heavy webapps |
-| **2026** | 50% of game engines output WASM as primary target |
-| **2027** | WASI enables "write once, run anywhere" (browser, server, edge) |
-| **2028** | Component model enables cross-language package ecosystem |
-
-### Real-World Production Examples:
-
-1. **Figma** - Entire rendering engine di WASM (C++)
-2. **Google Earth** - 3D globe rendering dengan WASM
-3. **AutoCAD** - CAD engine ported ke web via WASM
-4. **Doom 3** - Full game running di browser via WASM
-5. **TensorFlow.js** - WASM backend untuk ML inference
-6. **FFmpeg.wasm** - Video processing di browser
-
----
-
-## 🎓 Learning Path
-
-### Beginner:
-1. Understand JavaScript performance bottlenecks
-2. Learn basic Rust syntax
-3. Follow wasm-bindgen tutorial
-4. Build simple calculator di WASM
-
-### Intermediate:
-5. Implement CPU-intensive algorithm (seperti di repo ini)
-6. Profile dengan Chrome DevTools
-7. Optimize memory usage
-8. Handle large data transfer JS ↔ WASM
-
-### Advanced:
-9. Multi-threading dengan Web Workers + WASM
-10. SIMD optimization
-11. Custom memory allocator
-12. Production deployment strategy
-
----
-
-## 📚 Resources
-
-### Official Docs:
-- [WebAssembly.org](https://webassembly.org/)
-- [Rust WASM Book](https://rustwasm.github.io/docs/book/)
-- [wasm-bindgen Guide](https://rustwasm.github.io/wasm-bindgen/)
-
-### Tutorials:
-- [MDN WASM Guide](https://developer.mozilla.org/en-US/docs/WebAssembly)
-- [WASM By Example](https://wasmbyexample.dev/)
-
-### Tools:
-- [wasm-pack](https://rustwasm.github.io/wasm-pack/)
-- [wabt](https://github.com/WebAssembly/wabt) - WASM Binary Toolkit
+| Company | Product | WASM Use Case |
+|---------|---------|---------------|
+| **Figma** | Design Tool | Entire rendering engine (C++) |
+| **Google** | Google Earth | 3D globe rendering |
+| **Autodesk** | AutoCAD | CAD engine in browser |
+| **id Software** | Doom 3 | Full game port |
+| **TensorFlow** | TF.js | ML inference backend |
 
 ---
 
 ## 🤝 Contributing
 
-Contributions welcome! Areas to improve:
-- [ ] Add more use cases (crypto, image processing)
-- [ ] Benchmark suite automation
-- [ ] Multi-threading demo dengan Web Workers
-- [ ] SIMD optimization examples
-- [ ] Go WASM comparison
+We love contributions! Check out our [Contributing Guide](CONTRIBUTING.md) to get started.
+
+### Quick Contribution Ideas:
+
+- 🟢 **Easy:** Fix typos, improve comments, add input validation
+- 🟡 **Medium:** Add SHA-256 demo, create benchmarks, implement CSV parsing
+- 🔴 **Hard:** Multi-threading, SIMD optimization, ray tracing demo
+
+### Contributors
+
+<a href="https://github.com/yourusername/wasm-ui-demo/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=yourusername/wasm-ui-demo" />
+</a>
+
+---
+
+## 📚 Learning Resources
+
+### Official Documentation:
+- [WebAssembly.org](https://webassembly.org/)
+- [Rust WASM Book](https://rustwasm.github.io/docs/book/)
+- [wasm-bindgen Guide](https://rustwasm.github.io/wasm-bindgen/)
+
+### Tutorials:
+- [MDN WebAssembly](https://developer.mozilla.org/en-US/docs/WebAssembly)
+- [WASM By Example](https://wasmbyexample.dev/)
+
+### Community:
+- [Rust WASM Discord](https://discord.gg/rust-lang)
+- [WebAssembly Discord](https://discord.gg/webassembly)
 
 ---
 
 ## 📄 License
 
-MIT License - Feel free to use for learning & portfolio
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ---
 
-## 🙋‍♂️ FAQ
+## 🙏 Acknowledgments
 
-**Q: Apakah WASM akan menggantikan JavaScript?**
-A: Tidak. WASM adalah complement, bukan replacement. JS tetap optimal untuk DOM manipulation & UI logic.
-
-**Q: Apakah saya harus belajar Rust untuk pakai WASM?**
-A: Tidak wajib. Bisa pakai C, C++, Go, atau AssemblyScript. Tapi Rust punya tooling terbaik via wasm-bindgen.
-
-**Q: Berapa size overhead WASM module?**
-A: Minimal ~20KB (compressed). Full app bisa 100KB-2MB tergantung complexity. Comparable dengan large JS bundle.
-
-**Q: Bagaimana debugging WASM?**
-A: Chrome DevTools support WASM debugging dengan source maps. Bisa set breakpoint di Rust code langsung.
-
-**Q: Apakah WASM bisa akses localStorage atau Fetch API?**
-A: Tidak directly. Harus via JavaScript bridge (wasm-bindgen provides bindings).
+- [Rust Team](https://www.rust-lang.org/governance) for amazing tooling
+- [wasm-bindgen](https://github.com/rustwasm/wasm-bindgen) maintainers
+- [WebAssembly Community Group](https://www.w3.org/community/webassembly/)
+- All contributors who make this project better
 
 ---
 
-## 🎯 Conclusion
+## 🌟 Star History
 
-WebAssembly membuka era baru web development dimana:
-- **Performance-critical applications** bisa run di browser dengan near-native speed
-- **Existing codebases** (C++/Rust) bisa di-port ke web tanpa rewrite
-- **Computation-heavy tasks** tidak lagi bottleneck di JavaScript
-
-Namun, WASM bukan silver bullet. Gunakan dengan bijak:
-- **WASM untuk compute** (algorithms, processing)
-- **JavaScript untuk UI** (DOM, events, interactivity)
-
-Masa depan web adalah **hybrid architecture**: JavaScript dan WASM bekerja sama untuk memberikan best user experience.
+[![Star History Chart](https://api.star-history.com/svg?repos=yourusername/wasm-ui-demo&type=Date)](https://star-history.com/#yourusename/wasm-ui-demo&Date)
 
 ---
+
+## 📞 Contact & Support
+
+- **Issues:** [GitHub Issues](https://github.com/yourusername/wasm-ui-demo/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/yourusername/wasm-ui-demo/discussions)
+- **Twitter:** [@yourusername](https://twitter.com/yourusername)
+
+---
+
+<div align="center">
 
 **Built with ❤️ for exploring next-generation web performance**
 
-*Repository ini dibuat untuk tujuan edukatif dan portfolio demonstration*
+⭐ Star this repo if you find it helpful! ⭐
+
+[Report Bug](https://github.com/yourusername/wasm-ui-demo/issues) · [Request Feature](https://github.com/yourusername/wasm-ui-demo/issues) · [View Demo](#)
+
+</div>
