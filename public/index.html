@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WASM UI Demo - Frontend Accelerator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+
+        .demo-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .demo-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 25px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .demo-card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: #ffd700;
+        }
+
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+        }
+
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1rem;
+        }
+
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .performance {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        canvas {
+            width: 100%;
+            border-radius: 6px;
+            margin-top: 15px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .loader {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .info-box {
+            background: rgba(255, 215, 0, 0.2);
+            border-left: 4px solid #ffd700;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 WebAssembly Frontend Accelerator</h1>
+            <p class="subtitle">Exploring WebAssembly to offload heavy logic from JavaScript and build high-performance web applications.</p>
+        </header>
+
+        <div class="demo-grid">
+            <!-- Prime Numbers Calculator -->
+            <div class="demo-card">
+                <h2>⚡ Prime Numbers</h2>
+                <div class="input-group">
+                    <label for="primeInput">Calculate primes up to:</label>
+                    <input type="number" id="primeInput" value="100000" min="10" max="10000000">
+                </div>
+                <button id="primeBtn">Calculate (WASM)</button>
+                <button id="primeJsBtn">Calculate (JS)</button>
+                <div class="result" id="primeResult">Results will appear here...</div>
+                <div class="performance">
+                    <span>WASM: <span id="primeWasmTime">-</span>ms</span>
+                    <span>JS: <span id="primeJsTime">-</span>ms</span>
+                </div>
+            </div>
+
+            <!-- Mandelbrot Set -->
+            <div class="demo-card">
+                <h2>🌀 Mandelbrot Set</h2>
+                <div class="input-group">
+                    <label for="mandelbrotIterations">Max Iterations:</label>
+                    <input type="number" id="mandelbrotIterations" value="100" min="10" max="1000">
+                </div>
+                <button id="mandelbrotBtn">Generate Fractal (WASM)</button>
+                <canvas id="mandelbrotCanvas" width="400" height="400"></canvas>
+                <div class="performance">
+                    <span>Time: <span id="mandelbrotTime">-</span>ms</span>
+                </div>
+            </div>
+
+            <!-- Fibonacci -->
+            <div class="demo-card">
+                <h2>🔢 Fibonacci Sequence</h2>
+                <div class="input-group">
+                    <label for="fibInput">Calculate Fibonacci of:</label>
+                    <input type="number" id="fibInput" value="50" min="1" max="92">
+                </div>
+                <button id="fibBtn">Calculate (WASM)</button>
+                <div class="result" id="fibResult">Results will appear here...</div>
+                <div class="performance">
+                    <span>Time: <span id="fibTime">-</span>ms</span>
+                </div>
+            </div>
+
+            <!-- Text Analysis -->
+            <div class="demo-card">
+                <h2>📝 Text Analysis</h2>
+                <div class="input-group">
+                    <label for="textInput">Enter text to analyze:</label>
+                    <textarea id="textInput" rows="4" placeholder="Paste your text here...">WebAssembly is a binary instruction format for a stack-based virtual machine. WASM is designed as a portable compilation target for programming languages.</textarea>
+                </div>
+                <button id="textBtn">Analyze (WASM)</button>
+                <div class="result" id="textResult">Results will appear here...</div>
+            </div>
+        </div>
+
+        <div class="info-box">
+            <h3>💡 Why WebAssembly?</h3>
+            <p>WASM memberikan near-native performance untuk komputasi berat. Operasi seperti kalkulasi prime numbers, image processing, dan cryptography bisa 2-20x lebih cepat dibanding JavaScript murni.</p>
+            <p style="margin-top: 10px;"><strong>Trade-off:</strong> WASM bukan pengganti JS. Gunakan WASM untuk CPU-intensive tasks, tetap gunakan JS untuk DOM manipulation dan UI logic.</p>
+        </div>
+    </div>
+
+    <script type="module">
+        import init, { 
+            calculate_primes, 
+            generate_mandelbrot, 
+            fibonacci, 
+            analyze_text 
+        } from './pkg/wasm_ui_demo.js';
+
+        async function run() {
+            await init();
+
+            // Prime Numbers Demo
+            document.getElementById('primeBtn').addEventListener('click', async () => {
+                const n = parseInt(document.getElementById('primeInput').value);
+                const start = performance.now();
+                const primes = calculate_primes(n);
+                const elapsed = performance.now() - start;
+                
+                document.getElementById('primeResult').innerHTML = 
+                    `Found ${primes.length} prime numbers<br>` +
+                    `First 10: ${primes.slice(0, 10).join(', ')}<br>` +
+                    `Last 10: ${primes.slice(-10).join(', ')}`;
+                document.getElementById('primeWasmTime').textContent = elapsed.toFixed(2);
+            });
+
+            // JS Prime Comparison
+            document.getElementById('primeJsBtn').addEventListener('click', () => {
+                const n = parseInt(document.getElementById('primeInput').value);
+                const start = performance.now();
+                
+                const primes = [];
+                for (let i = 2; i <= n; i++) {
+                    let isPrime = true;
+                    for (let j = 2; j <= Math.sqrt(i); j++) {
+                        if (i % j === 0) {
+                            isPrime = false;
+                            break;
+                        }
+                    }
+                    if (isPrime) primes.push(i);
+                }
+                
+                const elapsed = performance.now() - start;
+                document.getElementById('primeResult').innerHTML = 
+                    `Found ${primes.length} prime numbers (JS)<br>` +
+                    `First 10: ${primes.slice(0, 10).join(', ')}<br>` +
+                    `Last 10: ${primes.slice(-10).join(', ')}`;
+                document.getElementById('primeJsTime').textContent = elapsed.toFixed(2);
+            });
+
+            // Mandelbrot Demo
+            document.getElementById('mandelbrotBtn').addEventListener('click', () => {
+                const iterations = parseInt(document.getElementById('mandelbrotIterations').value);
+                const canvas = document.getElementById('mandelbrotCanvas');
+                const ctx = canvas.getContext('2d');
+                
+                const start = performance.now();
+                const imageData = generate_mandelbrot(400, 400, iterations, 4.0, -0.5, 0);
+                const elapsed = performance.now() - start;
+                
+                const imgData = ctx.createImageData(400, 400);
+                imgData.data.set(imageData);
+                ctx.putImageData(imgData, 0, 0);
+                
+                document.getElementById('mandelbrotTime').textContent = elapsed.toFixed(2);
+            });
+
+            // Fibonacci Demo
+            document.getElementById('fibBtn').addEventListener('click', () => {
+                const n = parseInt(document.getElementById('fibInput').value);
+                const start = performance.now();
+                const result = fibonacci(n);
+                const elapsed = performance.now() - start;
+                
+                document.getElementById('fibResult').textContent = 
+                    `Fibonacci(${n}) = ${result}`;
+                document.getElementById('fibTime').textContent = elapsed.toFixed(2);
+            });
+
+            // Text Analysis Demo
+            document.getElementById('textBtn').addEventListener('click', () => {
+                const text = document.getElementById('textInput').value;
+                const result = analyze_text(text);
+                document.getElementById('textResult').textContent = result;
+            });
+        }
+
+        run();
+    </script>
+</body>
+</html>
